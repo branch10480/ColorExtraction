@@ -1,6 +1,10 @@
-public struct ColorExtraction {
-    public private(set) var text = "Hello, World!"
+import UIKit
 
-    public init() {
-    }
+public class ColorExtraction {
+  
+  public static func extractColor(from: UIImage) -> UIColor {
+    // TODO: Imple
+    return .blue
+  }
+  
 }
