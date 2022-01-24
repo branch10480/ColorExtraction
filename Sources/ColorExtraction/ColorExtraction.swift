@@ -7,9 +7,12 @@ public class ColorExtraction {
   }
   
   public static func extractColor(from image: UIImage, type: ExtractionType) -> UIColor? {
+    guard let resizedImage = image.resized(withPercentage: 0.2) else {
+      return nil
+    }
     switch type {
     case .mostFrequent:
-      return mostFrequentColor(from: image)
+      return mostFrequentColor(from: resizedImage)
     }
   }
   
@@ -28,10 +31,10 @@ public class ColorExtraction {
       for y in 0..<maxHeight {
         let targetPixel = (maxWidth * y + x) * numberOfComponents
         let factor = ColorFactor(
-          red: Int(data[targetPixel]),
-          green: Int(data[targetPixel + 1]),
-          blue: Int(data[targetPixel + 2]),
-          alpha: Int(data[targetPixel + 3])
+          red: CGFloat(data[targetPixel]),
+          green: CGFloat(data[targetPixel + 1]),
+          blue: CGFloat(data[targetPixel + 2]),
+          alpha: CGFloat(data[targetPixel + 3])
         )
         
         // Ignore the color where alpha is 0
@@ -47,11 +50,11 @@ public class ColorExtraction {
       }
     }
     
-    let mostFrequentColor = frequencies
+    let sorted: [(UIColor, Int)] = frequencies
       .enumerated()
       .sorted(by: { $0.element.value >= $1.element.value })
-      .map(\.element.key.uiColor)
-      .first
+      .map{ return ($0.element.key.uiColor, $0.element.value) }
+    let mostFrequentColor = sorted.first?.0
     return mostFrequentColor
   }
   

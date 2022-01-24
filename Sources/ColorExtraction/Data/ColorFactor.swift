@@ -8,10 +8,10 @@
 import UIKit
 
 public struct ColorFactor: Equatable {
-  public var red: Int
-  public var green: Int
-  public var blue: Int
-  public var alpha: Int
+  public var red: CGFloat
+  public var green: CGFloat
+  public var blue: CGFloat
+  public var alpha: CGFloat
   
   public static var zero: ColorFactor {
     .init(red: 0, green: 0, blue: 0, alpha: 0)
@@ -19,10 +19,10 @@ public struct ColorFactor: Equatable {
   
   public var uiColor: UIColor {
     .init(
-      red: CGFloat(red) / 255.0,
-      green: CGFloat(green) / 255.0,
-      blue: CGFloat(blue) / 255.0,
-      alpha: CGFloat(alpha) / 255.0
+      red: red / 255.0,
+      green: green / 255.0,
+      blue: blue / 255.0,
+      alpha: alpha / 255.0
     )
   }
   
@@ -30,9 +30,6 @@ public struct ColorFactor: Equatable {
 
 extension ColorFactor: Hashable {
   public func hash(into hasher: inout Hasher) {
-    hasher.combine(red.description)
-    hasher.combine(green.description)
-    hasher.combine(blue.description)
-    hasher.combine(alpha.description)
+    hasher.combine(uiColor)
   }
 }
